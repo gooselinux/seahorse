@@ -1,0 +1,24 @@
+diff -up seahorse-2.28.1/src/seahorse-key-manager-store.c.property-get seahorse-2.28.1/src/seahorse-key-manager-store.c
+--- seahorse-2.28.1/src/seahorse-key-manager-store.c.property-get	2009-12-14 08:48:11.767890524 -0500
++++ seahorse-2.28.1/src/seahorse-key-manager-store.c	2009-12-14 08:48:46.853113546 -0500
+@@ -407,13 +407,14 @@ xds_get_atom_value (GdkDragContext *cont
+ 	g_return_val_if_fail (context != NULL, NULL);
+ 	g_return_val_if_fail (context->source_window != NULL, NULL);
+ 
+-	gdk_property_get (context->source_window,
+-			  XDS_ATOM, TEXT_ATOM,
+-			  0, MAX_XDS_ATOM_VAL_LEN,
+-			  FALSE, NULL, NULL, NULL,
+-			  (unsigned char **) &ret);
++	if (gdk_property_get (context->source_window,
++			      XDS_ATOM, TEXT_ATOM,
++			      0, MAX_XDS_ATOM_VAL_LEN,
++			      FALSE, NULL, NULL, NULL,
++			      (unsigned char **) &ret))
++		return ret;
+ 
+-	return ret;
++	return NULL;
+ }
+ 
+ static gboolean
